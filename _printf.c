@@ -10,12 +10,15 @@ int _printf(const char *format, ...)
 {
 	int count = 0;
 	va_list args;
+	va_list list;
 
 	va_start(args, format);
 
 	if (format == NULL)
 		return (-1);
-	va_start(args, format);
+
+	va_start(list, format);
+
 	while (*format != '\0')
 	{
 		if (*format != '%')
@@ -49,7 +52,7 @@ int _printf(const char *format, ...)
 			}
 			else if (*format == '%')
 			{
-				write(1, "%", 1);
+				write(1, "% ", 1);
 				count++;
 			}
 		}
