@@ -1,57 +1,64 @@
 #include "main.h"
 
+/**
+ * _printf - Printf function
+ * @format: format.
+ * Return: Printed chars.
+ */
+
 int _printf(const char *format, ...)
 {
-	int ch_print = 0;
-	va_list ls_args;
+	int count = 0;
+	va_list args;
+	va_list list;
+
+	va_start(args, format);
 
 	if (format == NULL)
-	{
 		return (-1);
-	}
 
-	va_start(ls_args, format);
-	
-	while (*format) /* iterate through characters of the format string */
+	va_start(list, format);
+
+	while (*format != '\0')
 	{
 		if (*format != '%')
 		{
-			write(1, format, 1); /* write character to standard output */
-			ch_print++;
+			write(1, format, 1);
+			count++;
 		}
-		else /* if format is the % sign */
+		else
 		{
-			format++; /* skip '%' check next character */
-			if (*format == '\0')
-				break;
-			if (*format == '%') /* solves %% */
+			format++;
+			if (*format == 'c')
 			{
-				/* handle '%%' */
-				write(1, format, 1);
-				ch_print++;
-			}
-			else if (*format == 'c')
-			{
-				/* handle '%c' */
-				char c = va_arg(ls_args, int);
+				char c = va_arg(args, int);
+
 				write(1, &c, 1);
-				ch_print++;
+				count++;
 			}
 			else if (*format == 's')
 			{
-				char *str = va_arg(ls_args, char*);
-				int str_len = 0;
+				char *str = va_arg(args, char *);
 
-				/* calculate length of string to stdoutput */
-				while (str[str_len] != '\0')
-					str_len++;
-				/* write the string to the stdoutput */
-				write(1, str, str_len);
-				ch_print += str_len;
+				if (str)
+				{
+					while (*str != '\0')
+					{
+						write(1, str, 1);
+						str++;
+						count++;
+					}
+				}
+			}
+			else if (*format == '%')
+			{
+				write(1, "% ", 1);
+				count++;
 			}
 		}
 		format++;
 	}
-	va_end(ls_args);
-	return (ch_print);
+
+	va_end(args);
+	return (count);
 }
