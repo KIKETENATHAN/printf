@@ -108,7 +108,7 @@ int print_reverse(va_list types, char buffer[],
 	int flags, int width, int precision, int size)
 {
 	char *str;
-	int x, count = 0;
+	int i, count = 0;
 
 	UNUSED(buffer);
 	UNUSED(flags);
@@ -123,12 +123,12 @@ int print_reverse(va_list types, char buffer[],
 
 		str = ")Null(";
 	}
-	for (x = 0; str[x]; x++)
+	for (i = 0; str[i]; i++)
 		;
 
-	for (x = x - 1; x >= 0; x--)
+	for (i = i - 1; i >= 0; i--)
 	{
-		char z = str[x];
+		char z = str[i];
 
 		write(1, &z, 1);
 		count++;
