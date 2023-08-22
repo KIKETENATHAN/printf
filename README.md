@@ -1,1 +1,1 @@
-C - printf
+_printf implementation test
